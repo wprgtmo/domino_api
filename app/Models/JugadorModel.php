@@ -7,7 +7,7 @@ class JugadorModel extends Model{
     protected $primaryKey       = 'id';
 
     protected $returnType       = 'array';
-    protected $allowedFields    = ['nombre', 'telefono', 'sexo', 'correo', 'nro_identidad', 'fecha_nacimiento', 'alias', 
+    protected $allowedFields    = ['nombre', 'telefono', 'sexo', 'foto', 'correo', 'nro_identidad', 'fecha_nacimiento', 'alias', 
                                     'ocupacion', 'comentario', 'nivel', 'elo', 'ranking', 'tipo', 'ciudad_id'];
     protected $validationRules  = [
         'nombre'        => 'required|min_length[3]|max_length[120]',
