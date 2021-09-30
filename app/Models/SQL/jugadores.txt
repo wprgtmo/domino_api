@@ -1,7 +1,0 @@
-INSERT INTO `jugador` 
-		(`id`, `nombre`, `telefono`, `sexo`, `correo`, `nro_identidad`, `fecha_nacimiento`, `alias`, `ocupacion`, `comentario`, `nivel`, `elo`, `ranking`, `tipo`, `ciudad_id`) 
-VALUES (NULL, 'Senen1 Rodríguez Aguilar', '52885542', 'M', 'senen@gmail.com', '75071618105', '1965-07-16', 'senen', 'Coordinador', 'Comentario Actualizado', 'Experto', '10', 'AA', 'P', '1'),
-VALUES (NULL, 'Olvis Rodríguez Aguilar','58544051','M','Olvis@nauta.cu','83110925385','09-11-1983','
-
-
-

@@ -48,6 +48,7 @@ $routes->group('api', ['namespace' => 'App\Controllers\API'], function($routes){
 	$routes->get('evento/(:num)/mesas/', 'Eventos::mesas/$1');
 	$routes->get('evento/(:num)/ronda/activa', 'Eventos::rondaActiva/$1');
 	$routes->get('evento/(:num)/ronda/proxima', 'Eventos::proximaRonda/$1');
+	$routes->get('evento/(:num)/parejas/', 'Eventos::parejas/$1');
 
 	// Rondas CRUD		
 	$routes->get('rondas', 'Rondas::index');
@@ -56,9 +57,11 @@ $routes->group('api', ['namespace' => 'App\Controllers\API'], function($routes){
 	$routes->put('rondas/update/(:num)', 'Rondas::update/$1');
 	$routes->delete('rondas/delete/(:num)', 'Rondas::delete/$1');
 	
+	// Rondas Reglas de negocio
 	$routes->get('rondas/activa/(:num)', 'Rondas::rondaActivaEvento/$1');
 	$routes->get('rondas/evento/(:num)', 'Rondas::rondasEvento/$1');
 
+	// Mesas CRUD		
 	$routes->get('mesas', 'Mesas::index');
 	$routes->post('mesas/create', 'Mesas::create');
 	$routes->get('mesas/edit/(:num)', 'Mesas::edit/$1');
@@ -66,7 +69,7 @@ $routes->group('api', ['namespace' => 'App\Controllers\API'], function($routes){
 	$routes->delete('mesas/delete/(:num)', 'Mesas::delete/$1');
 	$routes->get('mesas/(:num)', 'Mesas::MesasEvento/$1');
 
-
+	// Jugadores CRUD		
 	$routes->get('jugadores', 'Jugadores::index');
 	$routes->post('jugadores/create', 'Jugadores::create');
 	$routes->get('jugadores/edit/(:num)', 'Jugadores::edit/$1');

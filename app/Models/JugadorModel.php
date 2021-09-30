@@ -17,13 +17,13 @@ class JugadorModel extends Model{
         'comentario'    => 'permit_empty|max_length[255]'
     ];
 
-    // protected $validationMessages  = [
-    //     'nombre'        => [
-    //         'is_unique'        => 'Ya el evento existe',
-    //         'min_length'    => 'El nombre del evento debe contener al menos 3 caracteres'
-    //     ]
-    // ];
+    protected $validationMessages  = [
+        'nombre'        => [
+            'is_unique'        => 'Ya el jugador existe',
+            'min_length'    => 'El nombre del jugador debe contener al menos 3 caracteres'
+        ]
+    ];
 
-    protected $skipValidation   = false;
+    protected $skipValidation   = true;
 
 }

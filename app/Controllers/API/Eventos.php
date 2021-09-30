@@ -179,6 +179,25 @@ class Eventos extends ResourceController
             return $this->failServerError('Ha ocurrido el siguiente error en el servidor: ' . $err->getMessage());
         }
     }
+    
+    public function parejas($evento_id = null){
+        try {
+            if ($evento_id == null) {
+                return $this->failValidationErrors('No se ha pasado un id de evento válido');
+            }
+
+            $evento = new EventoModel();
+            $evento_buscado = $evento->find($evento_id);
+            if ($evento_buscado == null) {
+                return $this->failNotFound('No se ha encontrado un evento con el id: ' . $evento_id);
+            }
+
+            $listaParejas = $this->model->getParejas($evento_id);
+            return $this->respond( array("parejas" => $listaParejas) );
+        } catch (\Exception $err) {
+            return $this->failServerError('Ha ocurrido el siguiente error en el servidor: ' . $err->getMessage());
+        }
+    }
 
 
 }
