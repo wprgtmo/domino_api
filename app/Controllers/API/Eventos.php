@@ -10,12 +10,12 @@ use App\Controllers\API\Rondas;
 class Eventos extends ResourceController
 {
     private $objeto='evento';
+    
     public function __construct() {
         $this->model = $this->setModel(new EventoModel());
     }
 
-	public function index()
-	{
+	public function index()	{
         try {
             $eventos = $this->model->findAll();
             return $this->respond( array("eventos" => $eventos) );
@@ -38,8 +38,7 @@ class Eventos extends ResourceController
         }
     }
 
-    public function edit($id = null)
-    {
+    public function edit($id = null){
         try {
             if($id == null)
                 return $this->failValidationErrors('No se ha pasado un id de '. $this->objeto .' válido');
@@ -55,8 +54,7 @@ class Eventos extends ResourceController
         }
     }
 
-    public function update($id = null)
-    {
+    public function update($id = null){
         try {
             if($id == null)
                 return $this->failValidationErrors('No se ha pasado un id de '. $this->objeto .' válido');
@@ -82,8 +80,7 @@ class Eventos extends ResourceController
         }
     }
 
-    public function delete($id = null)
-    {
+    public function delete($id = null){
         try {
             if($id == null)
                 return $this->failValidationErrors('No se ha pasado un id de '. $this->objeto .' válido');
@@ -105,8 +102,7 @@ class Eventos extends ResourceController
         }
     }
 
-    public function rondas($evento_id = null)
-    {
+    public function rondas($evento_id = null){
         try {
             if ($evento_id == null) {
                 return $this->failValidationErrors('No se ha pasado un id de evento válido');
@@ -124,8 +120,7 @@ class Eventos extends ResourceController
         }
     }
 
-    public function rondaActiva($evento_id = null)
-    {
+    public function rondaActiva($evento_id = null){
         try {
             if ($evento_id == null) {
                 return $this->failValidationErrors('No se ha pasado un id de evento válido');
@@ -143,9 +138,30 @@ class Eventos extends ResourceController
         }
     }
 
+    public function nuevaRonda($evento_id = null){
+        try {
+            if ($evento_id == null) {
+                return $this->failValidationErrors('No se ha pasado un id de evento válido');
+            }
 
-    public function mesas($evento_id = null)
-    {
+            $evento_buscado = $this->model->find($evento_id);
+            if ($evento_buscado == null) {
+                return $this->failNotFound('No se ha encontrado un evento con el id: ' . $evento_id);
+            }
+
+            $rondaAct = $this->model->getRondaActiva($evento_id);
+            return $this->respond( array("rondaActiva" => $rondaAct) );
+        } catch (\Exception $err) {
+            return $this->failServerError('Ha ocurrido el siguiente error en el servidor: ' . $err->getMessage());
+        }
+    }
+
+    public function proximaRonda($evento_id = null){
+        $proxRonda = $this->model->getProximaRonda($evento_id);
+        return $this->respond( array("proximaRonda" => $proxRonda) );
+    }
+
+    public function mesas($evento_id = null){
         try {
             if ($evento_id == null) {
                 return $this->failValidationErrors('No se ha pasado un id de evento válido');

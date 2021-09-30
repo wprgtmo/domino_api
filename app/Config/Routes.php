@@ -46,7 +46,8 @@ $routes->group('api', ['namespace' => 'App\Controllers\API'], function($routes){
 	// Eventos Reglas de negocio
 	$routes->get('evento/(:num)/rondas/', 'Eventos::rondas/$1');
 	$routes->get('evento/(:num)/mesas/', 'Eventos::mesas/$1');
-	$routes->get('evento/(:num)/ronda-activa', 'Eventos::rondaActiva/$1');
+	$routes->get('evento/(:num)/ronda/activa', 'Eventos::rondaActiva/$1');
+	$routes->get('evento/(:num)/ronda/proxima', 'Eventos::proximaRonda/$1');
 
 	// Rondas CRUD		
 	$routes->get('rondas', 'Rondas::index');

@@ -37,7 +37,16 @@ class EventoModel extends Model{
         $builder->where('evento_id', $evento_id);
         $builder->where('cerrada', false);
         $query = $builder->get();
-        return $query->getResult ();
+        return $query->getResult();
+    }
+
+    public function getProximaRonda($evento_id = null)
+    {
+        $builder = $this->db->table('ronda');
+        $builder->select('MAX(ronda.numero) + 1 AS proxRonda');
+        $builder->where('evento_id', $evento_id);
+        $query = $builder->get();
+        return $query->getResult();
     }
 
     public function getMesas($evento_id = null)
