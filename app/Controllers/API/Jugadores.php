@@ -107,4 +107,21 @@ class Jugadores extends ResourceController
         }
     }
 
+    public function Jugador($id = null)
+	{
+        try {
+            if($id == null)
+                return $this->failValidationErrors('No se ha pasado un id de '. $this->nombreObjeto .' válido');
+
+            $objeto = $this->model->find($id);
+            if($objeto == null)
+                return $this->failNotFound('No se ha encontrado un '. $this->nombreObjeto .' con el id: '. $id); 
+
+            return $this->respond($objeto);
+
+        } catch (\Exception $err) {
+            return $this->failServerError('Ha ocurrido el siguiente error en el servidor: '.$err->getMessage());
+        }
+	}
+
 }
