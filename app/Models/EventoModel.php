@@ -67,4 +67,12 @@ class EventoModel extends Model{
         return $query->getResult ();
     }
 
+    public function getParejasMesa($evento_id, $mesa_id, $ronda_id = null)
+    {
+        $builder = $this->db->table('pareja');
+        $builder->select('pareja.*');
+        $builder->where('evento_id', $evento_id);
+        $query = $builder->get();
+        return $query->getResult ();
+    }
 }

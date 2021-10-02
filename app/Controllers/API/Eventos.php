@@ -199,6 +199,35 @@ class Eventos extends ResourceController
         }
     }
 
+    public function parejasMesa($evento_id = null, $mesa_id = null, $ronda_id = null){
+        try {
+            if ($evento_id == null) {
+                return $this->failValidationErrors('No se ha pasado un id de evento válido');
+            }
+
+            if ($mesa_id == null) {
+                return $this->failValidationErrors('No se ha pasado un id de mesa válido');
+            }
+
+            if ($ronda_id == null) {
+                $rondaAct= $this->model->getRondaActiva($evento_id);
+                $ronda_id= $rondaAct->get(0).id;
+                return $this->respond( array("rondaActiva" => $ronda_id) );
+            }
+
+
+            // $evento = new EventoModel();
+            // $evento_buscado = $evento->find($evento_id);
+            // if ($evento_buscado == null) {
+            //     return $this->failNotFound('No se ha encontrado un evento con el id: ' . $evento_id);
+            // }
+
+            // $listaParejas = $this->model->getParejas($evento_id);
+            // return $this->respond( array("parejas" => $listaParejas) );
+        } catch (\Exception $err) {
+            return $this->failServerError('Ha ocurrido el siguiente error en el servidor: ' . $err->getMessage());
+        }
+    }
 
 }
 

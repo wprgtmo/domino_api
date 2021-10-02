@@ -31,4 +31,9 @@ class RondaModel extends Model{
         return $query->getResult ();
     }
 
+    public function nuevaRonda($evento_id = null)
+    {
+        return null;
+    }
+
 }

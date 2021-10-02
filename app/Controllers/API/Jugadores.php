@@ -18,7 +18,7 @@ class Jugadores extends ResourceController
 	{
         try {
             $objetos = $this->model->findAll();
-            return $this->respond($objetos);
+            return $this->respond(array("jugadores" => $objetos) );
         } catch (\Exception $err) {
             return $this->failServerError('Exception ha ocurrido un error en el servidor:'.$err->getMessage());
         }
