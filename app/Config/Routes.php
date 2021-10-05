@@ -44,6 +44,8 @@ $routes->group('api', ['namespace' => 'App\Controllers\API'], function($routes){
 	$routes->delete('eventos/delete/(:num)', 'Eventos::delete/$1');
 
 	// Eventos Reglas de negocio
+	
+	$routes->get('evento/(:num)/iniciar', 'Eventos::iniciar/$1');
 	$routes->get('evento/(:num)/rondas', 'Eventos::rondas/$1');
 	$routes->get('evento/(:num)/mesas', 'Eventos::mesas/$1');
 	$routes->get('evento/(:num)/ronda/nueva', 'Eventos::nuevaRonda/$1');

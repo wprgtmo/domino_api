@@ -3,6 +3,7 @@
 namespace App\Controllers\API;
 
 use App\Models\EventoModel;
+use App\Models\MesaModel;
 use CodeIgniter\CLI\Console;
 use CodeIgniter\RESTful\ResourceController;
 use App\Controllers\API\Rondas;
@@ -27,6 +28,7 @@ class Eventos extends ResourceController
     public function create(){
         try {
             $evento = $this->request->getJSON();
+            $evento->estado= 'C'; // Estado: CREADO
             if ($this->model->insert($evento)):
                 $evento->id = $this->model->insertID;
                 return $this->respondCreated($evento);
@@ -93,6 +95,41 @@ class Eventos extends ResourceController
                 return $this->respondDeleted($eventoVerificado);
             else:
                 return $this->failServerError('No se ha podido eliminar el '. $this->objeto . ' con el id: '. $id);
+            endif;
+
+            // return $this->respond($evento);
+
+        } catch (\Exception $err) {
+            return $this->failServerError('Ha ocurrido el iguiente error en el servidor: '.$err->getMessage());
+        }
+    }
+
+    public function iniciar($evento_id = null)
+    {
+        try {
+            if($evento_id == null)
+                return $this->failValidationErrors('No se ha pasado un id de '. $this->objeto .' válido');
+
+            $eventoIniciar = $this->model->find($evento_id);
+            if($eventoIniciar == null)
+                return $this->failNotFound('No se ha encontrado un '. $this->objeto .' con el id: '. $evento_id); 
+            // Se toma el evento y se cambia el estado
+
+            if ($eventoIniciar["estado"]=='C'):
+                $eventoIniciar["estado"]='I'; // Estado: I (Iniciado)
+                
+                
+                $cant_parejas= $this->model->getCantParejas($evento_id); 
+                $cant_mesas= intdiv($cant_parejas, 2);
+                $mesa_modelo= new MesaModel();
+                for ($i=1; $i < $cant_mesas + 1; $i++) { 
+                    $mesaAdd=['id'=>0, 'numero' => $i, 'evento_id' => $evento_id, 'bonificacion'=>0];
+                    $mesa_modelo->insert($mesaAdd);
+                } 
+                return $this->respond( array("iniciar" => 'ok') );
+
+            else:
+                return $this->failServerError('El evento no se encuentra en el estado Creado y no se puede Iniciar');
             endif;
 
             // return $this->respond($evento);
