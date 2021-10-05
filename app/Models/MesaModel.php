@@ -7,7 +7,7 @@ class MesaModel extends Model{
     protected $primaryKey       = 'id';
 
     protected $returnType       = 'array';
-    protected $allowedFields    = ['numero','evento_id'];
+    protected $allowedFields    = ['numero','evento_id', 'bonificacion'];
 
     // protected $useTimestamps    = true;
     // protected $createdField     = 'inicio';

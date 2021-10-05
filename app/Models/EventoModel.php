@@ -7,7 +7,7 @@ class EventoModel extends Model{
     protected $primaryKey       = 'id';
 
     protected $returnType       = 'array';
-    protected $allowedFields    = ['nombre', 'comentario', 'ciudad_id','cerrado', 'fecha_inicio', 'fecha_cierre'];
+    protected $allowedFields    = ['nombre', 'comentario', 'ciudad_id', 'fecha_inicio', 'fecha_cierre'];
 
     protected $useTimestamps    = true;
     protected $createdField     = 'creado';
@@ -64,7 +64,16 @@ class EventoModel extends Model{
         $builder->select('pareja.*');
         $builder->where('evento_id', $evento_id);
         $query = $builder->get();
-        return $query->getResult ();
+        return $query->getResult();
+    }
+
+    public function getCantParejas($evento_id = null)
+    {
+        $builder = $this->db->table('pareja');
+        $builder->select('pareja.*');
+        $builder->where('evento_id', $evento_id);
+        $query = $builder->get();
+        return $query->getNumRows();
     }
 
     public function getParejasMesa($evento_id, $mesa_id, $ronda_id = null)
