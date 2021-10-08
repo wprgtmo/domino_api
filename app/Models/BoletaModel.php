@@ -7,7 +7,7 @@ class BoletaModel extends Model{
     protected $primaryKey       = 'id';
 
     protected $returnType       = 'array';
-    protected $allowedFields    = ['evento_id', 'ronda_id', 'mesa_id', 'es_valida', 'fecha_registro'];
+    protected $allowedFields    = ['evento_id', 'ronda_id', 'mesa_id', 'es_valida'];
 
     // protected $useTimestamps    = true;
     // protected $createdField     = 'fecha_registro';

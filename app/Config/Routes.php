@@ -53,6 +53,9 @@ $routes->group('api', ['namespace' => 'App\Controllers\API'], function($routes){
 	$routes->get('evento/(:num)/ronda/proxima', 'Eventos::proximaRonda/$1');
 	$routes->get('evento/(:num)/parejas', 'Eventos::parejas/$1');
 	$routes->get('evento/(:num)/mesa/(:num)/parejas', 'Eventos::parejasMesa/$1/$2');
+
+	
+	$routes->get('evento/(:num)/cant_rondas', 'Eventos::cantRondas/$1');
 	
 	// Jugadores CRUD		
 	$routes->get('jugadores', 'Jugadores::index');

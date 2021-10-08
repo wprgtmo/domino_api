@@ -20,20 +20,4 @@ class RondaModel extends Model{
 
     protected $skipValidation   = false;
 
-    public function getRondaActivaDelEvento($evento_id = null)
-    {
-        $builder = $this->db->table($this->table);
-        $builder->select('ronda.numero');
-        $builder->join('evento', 'evento.id = ronda.evento_id');
-        $builder->where('evento_id', $evento_id);
-        $builder->where('cerrada', false);
-        $query = $builder->get();
-        return $query->getResult ();
-    }
-
-    public function nuevaRonda($evento_id = null)
-    {
-        return null;
-    }
-
 }

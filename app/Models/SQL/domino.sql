@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 05-10-2021 a las 06:04:34
+-- Tiempo de generación: 06-10-2021 a las 00:07:13
 -- Versión del servidor: 10.4.18-MariaDB
 -- Versión de PHP: 8.0.3
 
@@ -33,7 +33,7 @@ CREATE TABLE `boleta` (
   `ronda_id` int(11) NOT NULL,
   `mesa_id` int(11) NOT NULL,
   `es_valida` bit(1) NOT NULL DEFAULT b'1',
-  `fecha_registro` char(10) DEFAULT NULL
+  `fecha_registro` datetime DEFAULT current_timestamp()
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -195,6 +195,23 @@ CREATE TABLE `mesa` (
   `bonificacion` tinyint(11) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
 
+--
+-- Volcado de datos para la tabla `mesa`
+--
+
+INSERT INTO `mesa` (`id`, `evento_id`, `numero`, `bonificacion`) VALUES
+(29, 1, 11, 0),
+(28, 1, 10, 0),
+(27, 1, 9, 0),
+(26, 1, 8, 0),
+(25, 1, 7, 0),
+(24, 1, 6, 0),
+(23, 1, 5, 0),
+(22, 1, 4, 0),
+(21, 1, 3, 0),
+(20, 1, 2, 0),
+(19, 1, 1, 0);
+
 -- --------------------------------------------------------
 
 --
@@ -264,6 +281,25 @@ CREATE TABLE `ronda` (
   `cerrada` bit(1) NOT NULL DEFAULT b'0',
   `comentario` varchar(255) DEFAULT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
+
+--
+-- Volcado de datos para la tabla `ronda`
+--
+
+INSERT INTO `ronda` (`id`, `evento_id`, `numero`, `inicio`, `cierre`, `dia`, `cerrada`, `comentario`) VALUES
+(18, 1, 5, '2021-10-05 16:53:20', '2021-10-05 16:53:20', 1, b'0', 'Ronda5'),
+(17, 1, 4, '2021-10-05 16:53:18', '2021-10-05 16:53:18', 1, b'0', 'Ronda4'),
+(16, 1, 3, '2021-10-05 16:52:02', '2021-10-05 16:52:02', 1, b'0', 'Ronda3'),
+(15, 1, 2, '2021-10-05 16:51:40', '2021-10-05 16:51:40', 1, b'0', 'Ronda2'),
+(14, 1, 1, '2021-10-05 16:50:58', '2021-10-05 16:50:58', 1, b'0', 'Ronda1'),
+(19, 1, 6, '2021-10-05 16:53:40', '2021-10-05 16:53:40', 1, b'0', 'Ronda6'),
+(20, 1, 7, '2021-10-05 16:54:11', '2021-10-05 16:54:11', 1, b'0', 'Ronda7'),
+(21, 1, 8, '2021-10-05 16:54:57', '2021-10-05 16:54:57', 1, b'0', 'Ronda8'),
+(22, 1, 9, '2021-10-05 16:56:23', '2021-10-05 16:56:23', 1, b'0', 'Ronda9'),
+(23, 1, 10, '2021-10-05 16:57:35', '2021-10-05 16:57:35', 1, b'0', 'Ronda10'),
+(24, 1, 11, '2021-10-05 16:57:56', '2021-10-05 16:57:56', 1, b'0', 'Ronda11'),
+(25, 1, 12, '2021-10-05 16:58:28', '2021-10-05 16:58:28', 1, b'0', 'Ronda12'),
+(26, 1, 13, '2021-10-05 17:03:57', '2021-10-05 17:03:57', 1, b'0', 'Ronda13');
 
 --
 -- Índices para tablas volcadas
@@ -392,7 +428,7 @@ ALTER TABLE `jugador`
 -- AUTO_INCREMENT de la tabla `mesa`
 --
 ALTER TABLE `mesa`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
 
 --
 -- AUTO_INCREMENT de la tabla `pais`
@@ -410,7 +446,7 @@ ALTER TABLE `pareja`
 -- AUTO_INCREMENT de la tabla `ronda`
 --
 ALTER TABLE `ronda`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
