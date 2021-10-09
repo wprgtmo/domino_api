@@ -44,11 +44,20 @@ $routes->group('api', ['namespace' => 'App\Controllers\API'], function($routes){
 	$routes->delete('eventos/delete/(:num)', 'Eventos::delete/$1');
 
 	// Eventos Reglas de negocio
-	
+
+	// Eventos según el estado	
+	$routes->get('eventos/creados', 'Eventos::index/C');
+	$routes->get('eventos/iniciados', 'Eventos::index/I');
+	$routes->get('eventos/finalizados', 'Eventos::index/F');
+
+	// Acciones solicitadas al evento	
 	$routes->get('evento/(:num)/iniciar', 'Eventos::iniciar/$1');
+	$routes->get('evento/(:num)/ronda/nueva', 'Eventos::nuevaRonda/$1');
+
+	
+	// Datos especificos del evento	
 	$routes->get('evento/(:num)/rondas', 'Eventos::rondas/$1');
 	$routes->get('evento/(:num)/mesas', 'Eventos::mesas/$1');
-	$routes->get('evento/(:num)/ronda/nueva', 'Eventos::nuevaRonda/$1');
 	$routes->get('evento/(:num)/ronda/activa', 'Eventos::rondaActiva/$1');
 	$routes->get('evento/(:num)/ronda/proxima', 'Eventos::proximaRonda/$1');
 	$routes->get('evento/(:num)/parejas', 'Eventos::parejas/$1');

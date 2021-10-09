@@ -20,10 +20,15 @@ class Eventos extends ResourceController
         $this->model = $this->setModel(new EventoModel());
     }
 
-    public function index()
+    public function index($estado = null)
     {
         try {
-            $eventos = $this->model->findAll();
+            if ($estado == null) { // Devulve todos los eventos
+                $eventos = $this->model->findAll();
+            }
+            else { // Devulve los eventos según el estado especificado
+                $eventos = $this->model->where('estado', $estado)->findAll();
+            }
             return $this->respond(array("eventos" => $eventos));
         } catch (\Exception $err) {
             return $this->failServerError('Exception ha ocurrido un error en el servidor:'.$err->getMessage());
