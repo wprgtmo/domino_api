@@ -129,15 +129,16 @@ class Eventos extends ResourceController
             if ($eventoIniciar == null) {
                 return $this->failNotFound('No se ha encontrado un '. $this->objeto .' con el id: '. $evento_id);
             }
-            // Se toma el evento y se cambia el estado
+            // Se toma el evento y se cambia el estado de CREADO a INICIADO
 
-            if ($eventoIniciar["estado"]=='C'):
-                $eventoIniciar["estado"]='I'; // Estado: I (Iniciado)
+            if ($eventoIniciar["estado"]=='C'): // Estado: C (CREADO)
+                $eventoIniciar["estado"]='I'; // Estado: I (INICIADO)
                 
-                
+            // Se toma la cantidad de parejas y se divide por 2 para determinar la cantidad de mesas    
             $cant_parejas= $this->model->getCantParejas($evento_id);
             $cant_mesas= intdiv($cant_parejas, 2);
             $mesa_modelo= new MesaModel();
+            // Se agrega una mesa por cada par de parejas definidas en el evento
             for ($i=1; $i < $cant_mesas + 1; $i++) {
                 $mesaAdd=['id'=>0, 'numero' => $i, 'evento_id' => $evento_id, 'bonificacion'=>0];
                 $mesa_modelo->insert($mesaAdd);
