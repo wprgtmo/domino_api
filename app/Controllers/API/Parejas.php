@@ -11,6 +11,7 @@ use CodeIgniter\RESTful\ResourceController;
 class Parejas extends ResourceController
 {
     private $nombreObjeto='pareja';
+
     public function __construct() {
         $this->model = $this->setModel(new ParejaModel());
     }
@@ -107,5 +108,22 @@ class Parejas extends ResourceController
             return $this->failServerError('Ha ocurrido el iguiente error en el servidor: '.$err->getMessage());
         }
     }
+
+    
+	public function getPareja($id)
+	{
+        try {
+            if($id == null)
+                return $this->failValidationErrors('No se ha pasado un id de '. $this->nombreObjeto .' válido');
+            $objetoVerificado = $this->model->find($id);
+            if($objetoVerificado == null)
+                return $this->failNotFound('No se ha encontrado un '. $this->nombreObjeto .' con el id: '. $id); 
+
+            return $this->respond($objetoVerificado);
+        } catch (\Exception $err) {
+            return $this->failServerError('Exception ha ocurrido un error en el servidor:'.$err->getMessage());
+        }
+	}
+
 
 }

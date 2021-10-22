@@ -51,13 +51,17 @@ $routes->group('api', ['namespace' => 'App\Controllers\API'], function($routes){
 	$routes->get('eventos/finalizados', 'Eventos::index/F');
 
 	// Acciones solicitadas al evento	
-	$routes->get('evento/(:num)/iniciar', 'Eventos::iniciar/$1');
-	$routes->get('evento/(:num)/ronda/nueva', 'Eventos::nuevaRonda/$1');
-
+	$routes->post('evento/iniciar', 'Eventos::iniciar');
+	$routes->post('evento/ronda/nueva', 'Eventos::rondaNueva');
+	$routes->post('evento/rondas', 'Eventos::rondas');
+	$routes->post('evento/mesas', 'Eventos::mesas');
+	$routes->post('evento/boletas', 'Eventos::boletas');
+	$routes->post('evento/parejas', 'Eventos::parejas');
 	
 	// Datos especificos del evento	
-	$routes->get('evento/(:num)/rondas', 'Eventos::rondas/$1');
-	$routes->get('evento/(:num)/mesas', 'Eventos::mesas/$1');
+	// $routes->get('evento/(:num)/rondas', 'Eventos::rondas/$1');
+	// $routes->get('evento/(:num)/mesas', 'Eventos::mesas/$1');
+
 	$routes->get('evento/(:num)/ronda/activa', 'Eventos::rondaActiva/$1');
 	$routes->get('evento/(:num)/ronda/proxima', 'Eventos::proximaRonda/$1');
 	$routes->get('evento/(:num)/parejas', 'Eventos::parejas/$1');
@@ -81,6 +85,8 @@ $routes->group('api', ['namespace' => 'App\Controllers\API'], function($routes){
 	$routes->get('parejas/edit/(:num)', 'Parejas::edit/$1');
 	$routes->put('parejas/update/(:num)', 'Parejas::update/$1');
 	$routes->delete('parejas/delete/(:num)', 'Parejas::delete/$1');
+	
+	$routes->get('pareja/(:num)', 'Parejas::getPareja/$1');
 
 	$routes->get('boletas', 'Boletas::index');
 	$routes->post('boletas/create', 'Boletas::create');
