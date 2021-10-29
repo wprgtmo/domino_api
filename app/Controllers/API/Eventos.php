@@ -37,13 +37,30 @@ class Eventos extends ResourceController
     public function create()
     {
         try {
-            $evento = $this->request->getJSON();
-            $evento->estado= 'C'; // Estado: CREADO
-            if ($this->model->insert($evento)):
-                $evento->id = $this->model->insertID;
-            return $this->respondCreated($evento); else:
+            $evento = [
+                'nombre'        => $this->request->getVar('nombre'),
+                'comentario'    => $this->request->getVar('comentario'),
+                'fecha_inicio'  => $this->request->getVar('fecha_inicio'),
+                'fecha_cierre'  => $this->request->getVar('fecha_cierre'),
+            ];            
+            
+            // Si subió una imagen
+            $file = $this->request->getFile('imagen');
+            if ($file) {
+                $file->move('./public/assets/img/eventos');
+                $evento["imagen"]= $file->getName();
+                // echo var_dump($evento);
+            }
+            // $evento = $this->request->getJSON();
+            $evento["estado"]= 'C'; // Estado: CREADO
+            $evento["ciudad_id"]= 1; // Estado: Gtmo
+
+            if ($this->model->insert($evento)) {
+                $evento["id"] = $this->model->insertID;
+                return $this->respondCreated($evento);
+            } else {
                 return $this->failValidationErrors($this->model->validation->listErrors());
-            endif;
+            }
         } catch (\Exception $err) {
             return $this->failServerError('Exception ha ocurrido un error en el servidor:'.$err->getMessage());
         }

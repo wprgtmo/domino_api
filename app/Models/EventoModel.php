@@ -7,7 +7,7 @@ class EventoModel extends Model{
     protected $primaryKey       = 'id';
 
     protected $returnType       = 'array';
-    protected $allowedFields    = ['nombre', 'comentario', 'ciudad_id', 'fecha_inicio', 'fecha_cierre'];
+    protected $allowedFields    = ['nombre', 'comentario', 'imagen', 'estado', 'ciudad_id', 'fecha_inicio', 'fecha_cierre'];
 
     protected $useTimestamps    = true;
     protected $createdField     = 'creado';
@@ -15,7 +15,8 @@ class EventoModel extends Model{
 
     protected $validationRules  = [
         'nombre'        => 'required|is_unique[evento.nombre]|min_length[3]|max_length[60]',
-        'comentario'    => 'permit_empty|max_length[255]'
+        'comentario'    => 'permit_empty|max_length[255]',
+        // 'imagen'        => 'uploaded[imagen]|max_size[imagen, 1024]|is_image[imagen]'
     ];
 
     protected $skipValidation   = false;
