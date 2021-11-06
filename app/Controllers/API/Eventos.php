@@ -387,36 +387,44 @@ class Eventos extends ResourceController
 
                 // echo var_dump($boletaPareja);
                 // De la primera BoletaPareja se obtiene la pareja como tal.
-                
-                $pareja1 = $this->model->getPareja($boletaPareja[0]->pareja_id);   
+                for ($j=0; $j < count($boletaPareja) ; $j++) { 
+                        
+                    $pareja = $this->model->getPareja($boletaPareja[$j]->pareja_id);   
 
-                // De la primera Pareja se obtienen los 2 jugadores
-                $jugador1 = $JugadorModel->getJugador($pareja1[0]->jugador1_id);
-                $jugador2 = $JugadorModel->getJugador($pareja1[0]->jugador2_id);
+                    // De la primera Pareja se obtienen los 2 jugadores
+                    $jugador1 = $JugadorModel->getJugador($pareja[0]->jugador1_id);
+                    $jugador2 = $JugadorModel->getJugador($pareja[0]->jugador2_id);
 
-                // Se agregan los 2 jugadores a la pareja
-                $pareja1[0]->{"jugador1"} = $jugador1; 
-                $pareja1[0]->{"jugador2"} = $jugador2;                 
-                unset($pareja1[0]->{"jugador1_id"});
-                unset($pareja1[0]->{"jugador2_id"});
+                    // Se agregan los 2 jugadores a la pareja
+                    $pareja[0]->{"jugador1"} = $jugador1; 
+                    $pareja[0]->{"jugador2"} = $jugador2;     
+                    
+                    // Se quitan los 2 id de jugadores a la pareja
+                    unset($pareja[0]->{"jugador1_id"});
+                    unset($pareja[0]->{"jugador2_id"});
 
-                // De la segunda BoletaPareja se obtiene la pareja como tal.
-                $pareja2 = $this->model->getPareja($boletaPareja[1]->pareja_id);          
-
-                // De la segunda Pareja se obtienen los 2 jugadores
-                $jugador3 = $JugadorModel->getJugador($pareja2[0]->jugador1_id);
-                $jugador4 = $JugadorModel->getJugador($pareja2[0]->jugador2_id);
-
-                // Se agregan los 2 jugadores a la pareja
-                $pareja2[0]->{"jugador1"} = $jugador3; 
-                $pareja2[0]->{"jugador2"} = $jugador4; 
-                unset($pareja2[0]->{"jugador1_id"});
-                unset($pareja2[0]->{"jugador2_id"});
-
-                $boletaPareja[0]->{"pareja1"} = $pareja1;
-                $boletaPareja[1]->{"pareja2"} = $pareja2;
+                    $boletaPareja[$j]->{"pareja"} = $pareja;
+                    unset($boletaPareja[$j]->{"pareja_id"});
+                }
 
                 $listaBoletas[$i]->{"boleta_parejas"} = $boletaPareja;  
+
+
+                // // De la segunda BoletaPareja se obtiene la pareja como tal.
+                // $pareja2 = $this->model->getPareja($boletaPareja[1]->pareja_id);          
+
+                // // De la segunda Pareja se obtienen los 2 jugadores
+                // $jugador3 = $JugadorModel->getJugador($pareja2[0]->jugador1_id);
+                // $jugador4 = $JugadorModel->getJugador($pareja2[0]->jugador2_id);
+
+                // // Se agregan los 2 jugadores a la pareja
+                // $pareja2[0]->{"jugador1"} = $jugador3; 
+                // $pareja2[0]->{"jugador2"} = $jugador4; 
+                // unset($pareja2[0]->{"jugador1_id"});
+                // unset($pareja2[0]->{"jugador2_id"});
+
+                // $boletaPareja[1]->{"pareja2"} = $pareja2;
+
             
             }
             // echo var_dump($jugadores);
