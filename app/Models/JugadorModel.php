@@ -26,4 +26,14 @@ class JugadorModel extends Model{
 
     protected $skipValidation   = true;
 
+
+    public function getJugador($jugador_id = null)
+    {
+        $builder = $this->db->table('jugador');
+        $builder->select('jugador.*');
+        $builder->where('id', $jugador_id); 
+        $query = $builder->get();
+        return $query->getRow();
+    }
+
 }

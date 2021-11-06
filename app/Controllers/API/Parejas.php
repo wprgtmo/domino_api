@@ -4,8 +4,8 @@ namespace App\Controllers\API;
 
 use App\Models\EventoModel;
 use App\Models\ParejaModel;
+use App\Models\JugadorModel;
 use CodeIgniter\CLI\Console;
-use CodeIgniter\Debug\Toolbar\Collectors\Logs;
 use CodeIgniter\RESTful\ResourceController;
 
 class Parejas extends ResourceController
@@ -108,18 +108,28 @@ class Parejas extends ResourceController
             return $this->failServerError('Ha ocurrido el iguiente error en el servidor: '.$err->getMessage());
         }
     }
-
-    
+   
 	public function getPareja($id)
 	{
         try {
             if($id == null)
                 return $this->failValidationErrors('No se ha pasado un id de '. $this->nombreObjeto .' válido');
-            $objetoVerificado = $this->model->find($id);
-            if($objetoVerificado == null)
+            $pareja = $this->model->find($id);
+            if($pareja == null)
                 return $this->failNotFound('No se ha encontrado un '. $this->nombreObjeto .' con el id: '. $id); 
+            
+            $JugadorModel = new JugadorModel();
+            $jugador1 = $JugadorModel->getJugador($pareja["jugador1_id"]);
+            $pareja["jugador1"] = $jugador1;                
+            unset($pareja->jugador1_id);
+            
+            $jugador2 = $JugadorModel->getJugador($pareja["jugador2_id"]);
+            $pareja["jugador2"] = $jugador2;
+            unset($pareja->jugador2_id);
 
-            return $this->respond($objetoVerificado);
+                
+            
+            return $this->respond(array("pareja" => $pareja));
         } catch (\Exception $err) {
             return $this->failServerError('Exception ha ocurrido un error en el servidor:'.$err->getMessage());
         }

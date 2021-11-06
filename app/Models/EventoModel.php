@@ -119,6 +119,17 @@ class EventoModel extends Model{
         return $query->getResult();
     }
 
+    
+    public function getPareja($pareja_id = null)
+    {
+        $builder = $this->db->table('pareja');
+        $builder->select('pareja.*');
+        $builder->where('id', $pareja_id);        
+        $builder->orderBy('id', 'ASC');
+        $query = $builder->get();
+        return $query->getResult();
+    }
+
     public function getCantParejas($evento_id = null)
     {
         $builder = $this->db->table('pareja');
@@ -138,14 +149,6 @@ class EventoModel extends Model{
         return $query->getResult();
     }
     
-    public function getJugador($jugador_id = null)
-    {
-        $builder = $this->db->table('jugador');
-        $builder->select('jugador.*');
-        $builder->where('id', $jugador_id); 
-        $query = $builder->get();
-        return $query->getRow();
-    }
 
     public function getBoletas($evento_id = null, $ronda_id = null)
     {
@@ -154,6 +157,18 @@ class EventoModel extends Model{
         $builder->where('evento_id', $evento_id);
         $builder->where('ronda_id', $ronda_id);        
         $builder->orderBy('mesa_id', 'ASC');
+        $query = $builder->get();
+        return $query->getResult ();
+    }
+
+
+
+    public function getBoletasPareja($boleta_id = null)
+    {
+        $builder = $this->db->table('boleta_pareja');
+        $builder->select('boleta_pareja.*');
+        $builder->where('boleta_id', $boleta_id);  
+        $builder->orderBy('pareja_id', 'ASC');
         $query = $builder->get();
         return $query->getResult ();
     }
