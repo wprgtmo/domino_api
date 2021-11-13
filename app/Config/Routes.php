@@ -67,6 +67,9 @@ $routes->group('api', ['namespace' => 'App\Controllers\API'], function($routes){
 	$routes->get('evento/(:num)/ronda/proxima', 'Eventos::proximaRonda/$1');
 	$routes->get('evento/(:num)/parejas', 'Eventos::parejas/$1');
 	$routes->get('evento/(:num)/mesa/(:num)/parejas', 'Eventos::parejasMesa/$1/$2');
+	
+	$routes->get('evento/(:num)/mesa/(:num)/boleta/ronda/activa', 'Eventos::boleta/$1/$2');
+	$routes->get('evento/(:num)/mesa/(:num)/boleta/ronda/(:num)', 'Eventos::boleta/$1/$2/$3');
 
 	$routes->get('evento/(:num)/mesa/(:num)/boletas', 'Eventos::boletasMesa/$1/$2');
 
@@ -102,6 +105,10 @@ $routes->group('api', ['namespace' => 'App\Controllers\API'], function($routes){
 	$routes->get('boletaparejas/edit/(:num)', 'BoletaParejas::edit/$1');
 	$routes->put('boletaparejas/update/(:num)', 'BoletaParejas::update/$1');
 	$routes->delete('boletaparejas/delete/(:num)', 'BoletaParejas::delete/$1');
+	
+	$routes->get('boletaparejas/salidor/(:num)', 'BoletaParejas::salidor/$1');
+
+
 
 	$routes->get('datas', 'Datas::index');
 	$routes->post('datas/create', 'Datas::create');

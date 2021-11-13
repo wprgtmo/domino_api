@@ -107,4 +107,27 @@ class BoletaParejas extends ResourceController
         }
     }
 
+
+    public function salidor($boleta_pareja_id = null)
+    {
+        try {
+            if($boleta_pareja_id == null)
+                return $this->failValidationErrors('No se ha pasado un id de '. $this->nombreObjeto .' válido');
+
+            $objeto = $this->model->find($boleta_pareja_id);
+            if($objeto == null)
+                return $this->failNotFound('No se ha encontrado un '. $this->nombreObjeto .' con el id: '. $boleta_pareja_id); 
+                
+            $objeto["salidor"]="1";
+            if ($this->model->update($boleta_pareja_id, $objeto)):
+                return $this->respondUpdated($objeto);
+            else:
+                return $this->failValidationErrors($this->model->validation->listErrors());
+            endif;
+
+        } catch (\Exception $err) {
+            return $this->failServerError('Ha ocurrido el siguiente error en el servidor: '.$err->getMessage());
+        }
+    }
+
 }

@@ -42,7 +42,9 @@ class Eventos extends ResourceController
                 'comentario'    => $this->request->getVar('comentario'),
                 'fecha_inicio'  => $this->request->getVar('fecha_inicio'),
                 'fecha_cierre'  => $this->request->getVar('fecha_cierre'),
-            ];            
+            ];   
+            
+            
             
             // Si subió una imagen
             $file = $this->request->getFile('imagen');
@@ -347,6 +349,93 @@ class Eventos extends ResourceController
         }
     }
 
+    public function boleta($evento_id = null, $mesa_id = null, $ronda_id = null)
+    {
+        try {
+            if ($evento_id == null) {
+                return $this->failValidationErrors('No se ha pasado un id de evento válido');
+            }
+
+            $evento_buscado = $this->model->find($evento_id);
+            if ($evento_buscado == null) {
+                return $this->failNotFound('No se ha encontrado un evento con el id: ' . $evento_id);
+            }
+
+            if ($mesa_id == null) {
+                return $this->failValidationErrors('No se ha pasado un id de mesa válido');
+            }
+
+            $mesa_buscada = $this->model->getMesa($evento_id, $mesa_id);
+            if ($mesa_buscada == null) {
+                return $this->failNotFound('No se ha encontrado una mesa con el id: ' . $mesa_id);
+            }
+
+            // Verifico que la ronda solicitada de ese evento exista y sea válida
+            // De no pasar un numero de ronda se toma la ronda activa
+            if ($ronda_id == null) {
+                $rondaAct= $this->model->getRondaActiva($evento_id);
+                if (count($rondaAct) == 0) {
+                    return $this->failNotFound('El evento aún no posee ninguna ronda.');
+                } else {
+                    $ronda_id= $rondaAct[0]->id;
+                    $ronda_buscada= $rondaAct;
+                }
+            } else {
+                $ronda_buscada = $this->model->getRonda($evento_id, $ronda_id);
+                if ($ronda_buscada == null) {
+                    return $this->failNotFound('No se ha encontrado la ronda '. $ronda_id . ' en el evento con el id: ' . $evento_id);
+                }
+            }
+
+            $boleta = $this->model->getBoleta($evento_id, $ronda_id, $mesa_id)[0];
+            $JugadorModel = new JugadorModel();
+
+            if ($boleta == null) {
+                return $this->failNotFound('No se ha encontrado una boleta en el: ' . $evento_id . ' para la mesa: ' .  $mesa_id . ' en la ronda: ' . $ronda_id);
+            }
+
+            // De cada Boleta se obtienen las 2 BoletasPareja asociadas
+            $boletaPareja = $this->model->getBoletasPareja($boleta->id);
+
+            // echo var_dump($boletaPareja);
+            // De la primera BoletaPareja se obtiene la pareja como tal.
+            for ($j=0; $j < count($boletaPareja) ; $j++) { 
+                
+                $mesa = $this->model->getMesa($evento_id, $boleta->{"mesa_id"});
+                $boleta->{"mesa"}=$mesa[0];
+
+                $boleta->{"ronda"}=$ronda_buscada[0];
+
+                // unset($boleta->{"mesa_id"});
+                    
+                $pareja = $this->model->getPareja($boletaPareja[$j]->pareja_id);   
+
+                // De la primera Pareja se obtienen los 2 jugadores
+                $jugador1 = $JugadorModel->getJugador($pareja[0]->jugador1_id);
+                $jugador2 = $JugadorModel->getJugador($pareja[0]->jugador2_id);
+
+                // Se agregan los 2 jugadores a la pareja
+                $pareja[0]->{"jugador1"} = $jugador1; 
+                $pareja[0]->{"jugador2"} = $jugador2;     
+                
+                // Se quitan los 2 id de jugadores a la pareja
+                unset($pareja[0]->{"jugador1_id"});
+                unset($pareja[0]->{"jugador2_id"});
+
+                $boletaPareja[$j]->{"pareja"} = $pareja[0];
+                unset($boletaPareja[$j]->{"pareja_id"});
+            }
+
+            $boleta->{"boleta_parejas"} = $boletaPareja;  
+
+            // echo var_dump($jugadores);
+            return $this->respond(array("boleta" => $boleta));
+        } catch (\Exception $err) {
+            return $this->failServerError('Ha ocurrido el siguiente error en el servidor: ' . $err->getMessage());
+        }
+    }
+
+
     public function boletasCompleta()
     {
         try {
@@ -388,6 +477,13 @@ class Eventos extends ResourceController
                 // echo var_dump($boletaPareja);
                 // De la primera BoletaPareja se obtiene la pareja como tal.
                 for ($j=0; $j < count($boletaPareja) ; $j++) { 
+                    
+                    $mesa = $this->model->getMesa($evento_id, $listaBoletas[$i]->{"mesa_id"});
+                    $listaBoletas[$i]->{"mesa"}=$mesa[0];
+
+                    $listaBoletas[$i]->{"ronda"}=$ronda_buscada[0];
+
+                    // unset($boleta->{"mesa_id"});
                         
                     $pareja = $this->model->getPareja($boletaPareja[$j]->pareja_id);   
 
@@ -403,28 +499,11 @@ class Eventos extends ResourceController
                     unset($pareja[0]->{"jugador1_id"});
                     unset($pareja[0]->{"jugador2_id"});
 
-                    $boletaPareja[$j]->{"pareja"} = $pareja;
+                    $boletaPareja[$j]->{"pareja"} = $pareja[0];
                     unset($boletaPareja[$j]->{"pareja_id"});
                 }
 
                 $listaBoletas[$i]->{"boleta_parejas"} = $boletaPareja;  
-
-
-                // // De la segunda BoletaPareja se obtiene la pareja como tal.
-                // $pareja2 = $this->model->getPareja($boletaPareja[1]->pareja_id);          
-
-                // // De la segunda Pareja se obtienen los 2 jugadores
-                // $jugador3 = $JugadorModel->getJugador($pareja2[0]->jugador1_id);
-                // $jugador4 = $JugadorModel->getJugador($pareja2[0]->jugador2_id);
-
-                // // Se agregan los 2 jugadores a la pareja
-                // $pareja2[0]->{"jugador1"} = $jugador3; 
-                // $pareja2[0]->{"jugador2"} = $jugador4; 
-                // unset($pareja2[0]->{"jugador1_id"});
-                // unset($pareja2[0]->{"jugador2_id"});
-
-                // $boletaPareja[1]->{"pareja2"} = $pareja2;
-
             
             }
             // echo var_dump($jugadores);

@@ -161,6 +161,17 @@ class EventoModel extends Model{
         return $query->getResult ();
     }
 
+    public function getBoleta($evento_id = null, $ronda_id = null, $mesa_id = null)
+    {
+        $builder = $this->db->table('boleta');
+        $builder->select('boleta.*');
+        $builder->where('evento_id', $evento_id);
+        $builder->where('ronda_id', $ronda_id);        
+        $builder->where('mesa_id', $mesa_id);   
+        $query = $builder->get();
+        return $query->getResult ();
+    }
+
 
 
     public function getBoletasPareja($boleta_id = null)
