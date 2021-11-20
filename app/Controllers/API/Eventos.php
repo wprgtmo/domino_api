@@ -34,12 +34,12 @@ class Eventos extends ResourceController
         }
     }
 
-    public function create()
+    public function crear()
     {
         try {
             $evento = [
-                'nombre'        => $this->request->getVar('nombre'),
-                'comentario'    => $this->request->getVar('comentario'),
+                'nombre'        => $this->request->getVar('nombre', FILTER_SANITIZE_STRING),
+                'comentario'    => $this->request->getVar('comentario', FILTER_SANITIZE_STRING),
                 'fecha_inicio'  => $this->request->getVar('fecha_inicio'),
                 'fecha_cierre'  => $this->request->getVar('fecha_cierre'),
             ];   
@@ -68,7 +68,7 @@ class Eventos extends ResourceController
         }
     }
 
-    public function edit($id = null)
+    public function editar($id = null)
     {
         try {
             if ($id == null) {
@@ -86,7 +86,7 @@ class Eventos extends ResourceController
         }
     }
 
-    public function update($id = null)
+    public function actualizar($id = null)
     {
         try {
             if ($id == null) {
@@ -113,7 +113,7 @@ class Eventos extends ResourceController
         }
     }
 
-    public function delete($id = null)
+    public function eliminar($id = null)
     {
         try {
             if ($id == null) {
@@ -145,31 +145,64 @@ class Eventos extends ResourceController
                 return $this->failValidationErrors('No se ha pasado un id de evento válido');
             }
             $evento_id = $evento->evento_id;
-            $eventoIniciar = $this->model->find($evento_id);
-            if ($eventoIniciar == null) {
+            $eventoFinalizar = $this->model->find($evento_id);
+            if ($eventoFinalizar == null) {
                 return $this->failNotFound('No se ha encontrado un '. $this->objeto .' con el id: '. $evento_id);
             }
-            // Se toma el evento y se cambia el estado de CREADO a INICIADO
 
-            if ($eventoIniciar["estado"]=='C'): // Estado: C (CREADO)
-                $eventoIniciar["estado"]='I'; // Estado: I (INICIADO)
-                
-            // Se toma la cantidad de parejas y se divide por 2 para determinar la cantidad de mesas
-            $cant_parejas= $this->model->getCantParejas($evento_id);
-            $cant_mesas= intdiv($cant_parejas, 2);
-            $mesa_modelo= new MesaModel();
-            // Se agrega una mesa por cada par de parejas definidas en el evento
-            for ($i=1; $i < $cant_mesas + 1; $i++) {
-                $mesaAdd=['id'=>0, 'numero' => $i, 'evento_id' => $evento_id, 'bonificacion'=>0];
-                $mesa_modelo->insert($mesaAdd);
-            }
-            return $this->respond(array("iniciar" => 'ok')); else:
+            // Se toma el evento y se valida que el estado sea CREADO 
+            if ($eventoFinalizar["estado"]!='C'){ // Estado: C (CREADO)
                 return $this->failServerError('El evento no se encuentra en el estado Creado y no se puede Iniciar');
-            endif;
+            }           
+            if ($this->model->update($evento_id, ['estado' => 'I'])) {
+                
+                // Se toma la cantidad de parejas y se divide por 2 para determinar la cantidad de mesas
+                $cant_parejas= $this->model->getCantParejas($evento_id);
+                $cant_mesas= intdiv($cant_parejas, 2);
 
-            // return $this->respond($evento);
+                // Si la cantidad de parejas es impar se agrega una mesa
+                if (fmod($cant_parejas, 2)>0) $cant_mesas++; 
+
+                $mesa_modelo= new MesaModel();
+                // Se agrega una mesa por cada par de parejas definidas en el evento
+                for ($i=1; $i < $cant_mesas + 1; $i++) {
+                    $mesaAdd=['id'=>0, 'numero' => $i, 'evento_id' => $evento_id, 'bonificacion'=>0];
+                    $mesa_modelo->insert($mesaAdd);
+                }
+                return $this->respondUpdated($eventoFinalizar);
+            } else            
+                return $this->failValidationErrors($this->model->validation->listErrors());
         } catch (\Exception $err) {
-            return $this->failServerError('Ha ocurrido el iguiente error en el servidor: '.$err->getMessage());
+            return $this->failServerError('Ha ocurrido el siguiente error en el servidor: '.$err->getMessage());
+        }
+    }
+
+    public function finalizar($evento_id = null)
+    {
+        try {
+            $evento = $this->request->getJSON();
+                        
+            if ($evento == null) {
+                return $this->failValidationErrors('No se ha pasado un id de evento válido');
+            }
+            $evento_id = $evento->evento_id;
+            $eventoFinalizar = $this->model->find($evento_id);
+            if ($eventoFinalizar == null) {
+                return $this->failNotFound('No se ha encontrado un '. $this->objeto .' con el id: '. $evento_id);
+            }
+
+            // Se toma el evento y se valida que el estado sea INICIADO 
+            if ($eventoFinalizar["estado"]!='I'){ // Estado: I (INICIADO)
+                return $this->failServerError('El evento no se encuentra en el estado Iniciado y no se puede Finalizar');
+            }           
+            if ($this->model->update($evento_id, ['estado' => 'F'])) {
+                
+                
+                return $this->respondUpdated($eventoFinalizar);
+            } else            
+                return $this->failValidationErrors($this->model->validation->listErrors());
+        } catch (\Exception $err) {
+            return $this->failServerError('Ha ocurrido el siguiente error en el servidor: '.$err->getMessage());
         }
     }
 

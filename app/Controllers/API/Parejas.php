@@ -28,10 +28,15 @@ class Parejas extends ResourceController
 
     public function create(){
         try {
-            $objeto = $this->request->getJSON();
-            if ($this->model->insert($objeto)):
-                $objeto->id = $this->model->insertID;
-                return $this->respondCreated($objeto);
+            $pareja = [
+                'nombre'        => $this->request->getVar('nombre'),
+                'evento_id'     => $this->request->getVar('evento_id'),
+                'jugador1_id'   => $this->request->getVar('jugador1_id'),
+                'jugador2_id'   => $this->request->getVar('jugador2_id'),
+            ];   
+            if ($this->model->insert($pareja)):
+                $pareja['id'] = $this->model->insertID;
+                return $this->respondCreated($pareja);
             else:
                 return $this->failValidationErrors($this->model->validation->listErrors());
             endif;

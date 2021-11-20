@@ -14,12 +14,12 @@ class EventoModel extends Model{
     protected $updatedField     = 'actualizado';
 
     protected $validationRules  = [
-        'nombre'        => 'required|is_unique[evento.nombre]|min_length[3]|max_length[60]',
+        'nombre'        => 'required|min_length[3]|max_length[60]', //is_unique[evento.nombre]|
         'comentario'    => 'permit_empty|max_length[255]',
         // 'imagen'        => 'uploaded[imagen]|max_size[imagen, 1024]|is_image[imagen]'
     ];
 
-    protected $skipValidation   = false;
+    protected $skipValidation   = true;
 
     /*
         Metodos  relativos a las rondas

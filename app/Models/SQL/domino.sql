@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 13-11-2021 a las 23:26:30
+-- Tiempo de generación: 20-11-2021 a las 07:19:43
 -- Versión del servidor: 10.4.18-MariaDB
 -- Versión de PHP: 8.0.3
 
@@ -196,7 +196,12 @@ INSERT INTO `boleta` (`id`, `evento_id`, `ronda_id`, `mesa_id`, `es_valida`, `cr
 (208, 1, 51, 26, b'1', '2021-10-20 00:26:29', '2021-11-09 09:04:09', 0),
 (209, 1, 51, 27, b'1', '2021-10-20 00:26:29', '2021-11-09 09:04:09', 0),
 (210, 1, 51, 28, b'1', '2021-10-20 00:26:29', '2021-11-09 09:04:09', 0),
-(211, 1, 51, 29, b'1', '2021-10-20 00:26:29', '2021-11-09 09:04:09', 0);
+(211, 1, 51, 29, b'1', '2021-10-20 00:26:29', '2021-11-09 09:04:09', 0),
+(212, 47, 53, 31, b'1', '2021-11-20 01:10:32', '2021-11-20 01:10:32', 0),
+(213, 47, 54, 31, b'1', '2021-11-20 01:17:04', '2021-11-20 01:17:04', 0),
+(214, 47, 55, 31, b'1', '2021-11-20 01:17:23', '2021-11-20 01:17:23', 0),
+(215, 47, 56, 31, b'1', '2021-11-20 01:17:45', '2021-11-20 01:17:45', 0),
+(216, 47, 57, 31, b'1', '2021-11-20 01:18:07', '2021-11-20 01:18:07', 0);
 
 -- --------------------------------------------------------
 
@@ -528,7 +533,17 @@ INSERT INTO `boleta_pareja` (`id`, `boleta_id`, `pareja_id`, `salidor`, `tantos`
 (328, 210, 10, b'0', 0, 0, b'0', '2021-10-19 23:26:29', '2021-10-19 23:26:29'),
 (329, 210, 11, b'0', 0, 0, b'0', '2021-10-19 23:26:29', '2021-10-19 23:26:29'),
 (330, 211, 11, b'0', 0, 0, b'0', '2021-10-19 23:26:29', '2021-10-19 23:26:29'),
-(331, 211, 12, b'0', 0, 0, b'0', '2021-10-19 23:26:29', '2021-10-19 23:26:29');
+(331, 211, 12, b'0', 0, 0, b'0', '2021-10-19 23:26:29', '2021-10-19 23:26:29'),
+(332, 212, 48, b'0', 0, 0, b'0', '2021-11-20 00:10:32', '2021-11-20 00:10:32'),
+(333, 212, 49, b'0', 0, 0, b'0', '2021-11-20 00:10:32', '2021-11-20 00:10:32'),
+(334, 213, 48, b'0', 0, 0, b'0', '2021-11-20 00:17:04', '2021-11-20 00:17:04'),
+(335, 213, 49, b'0', 0, 0, b'0', '2021-11-20 00:17:04', '2021-11-20 00:17:04'),
+(336, 214, 48, b'0', 0, 0, b'0', '2021-11-20 00:17:23', '2021-11-20 00:17:23'),
+(337, 214, 49, b'0', 0, 0, b'0', '2021-11-20 00:17:23', '2021-11-20 00:17:23'),
+(338, 215, 48, b'0', 0, 0, b'0', '2021-11-20 00:17:45', '2021-11-20 00:17:45'),
+(339, 215, 49, b'0', 0, 0, b'0', '2021-11-20 00:17:45', '2021-11-20 00:17:45'),
+(340, 216, 48, b'0', 0, 0, b'0', '2021-11-20 00:18:07', '2021-11-20 00:18:07'),
+(341, 216, 49, b'0', 0, 0, b'0', '2021-11-20 00:18:07', '2021-11-20 00:18:07');
 
 -- --------------------------------------------------------
 
@@ -587,12 +602,12 @@ CREATE TABLE `evento` (
 --
 
 INSERT INTO `evento` (`id`, `ciudad_id`, `nombre`, `comentario`, `imagen`, `estado`, `fecha_inicio`, `fecha_cierre`, `creado`, `actualizado`) VALUES
-(1, 1, 'Clásico 2021', 'Clásico 2021 Guantánamo', 'evento1.jpg', 'I', '2021-09-25 18:46:27', '2021-09-25 18:46:27', '2021-09-25 18:46:27', '2021-09-25 18:46:27'),
-(2, 1, 'Clásico 2022', 'Clásico 2022 Guantánamo', 'evento1.jpg', 'C', '2021-09-25 18:46:27', '2021-09-25 18:46:27', '2021-09-25 18:46:27', '2021-09-25 18:46:27'),
-(3, 1, 'Clásico 2023 Actualiz', 'Clásico 2023 Guantánamo Actualizado', 'evento1.jpg', 'F', '2021-09-25 18:46:27', '2021-09-25 18:46:27', '2021-09-28 19:51:48', '2021-09-28 19:56:08'),
-(38, 1, 'evt123', 'jklhj', 'ABSTRACT WALLPER HD 1600X1200-134.JPG', 'C', '2021-11-12 02:15:16', '2021-11-20 12:00:00', '2021-11-12 01:15:38', '2021-11-12 01:15:38'),
-(39, 1, 'evt1234', 'fghfg', 'ABSTRACT WALLPER HD 1600X1200-193.JPG', 'C', '2021-11-13 00:00:00', '0000-00-00 00:00:00', '2021-11-12 01:17:04', '2021-11-12 01:17:04'),
-(40, 1, 'popopo', 'hjk', 'ABSTRACT WALLPER HD 1600X1200-130_1.JPG', 'C', '2021-11-12 02:17:30', '2021-11-19 00:00:00', '2021-11-12 01:17:47', '2021-11-12 01:17:47');
+(1, 1, 'Clásico 2021', 'Clásico 2021 Guantánamo', 'evento1.jpg', 'I', '2021-09-25 18:46:27', '2021-09-27 18:46:27', '2021-09-25 18:46:27', '2021-09-25 18:46:27'),
+(2, 1, 'Clásico 2020', 'Clásico 2020 Guantánamo', 'evento1.jpg', 'F', '2021-09-29 18:46:27', '2021-10-03 18:46:27', '2021-09-25 18:46:27', '2021-09-25 18:46:27'),
+(43, 1, 'Tope interprovincial', 'Tope con 4 parejas de Guantánamo y 4 de Santiago de Cuba', 'P1180301.JPG', 'I', '2021-12-10 00:00:00', '2021-12-12 00:00:00', '2021-11-16 16:29:32', '2021-11-18 23:16:14'),
+(47, 1, 'Clasico de prueba 1', 'ggg', '20200623_101721.jpg', 'I', '2021-11-19 00:17:29', '2021-11-19 00:17:29', '2021-11-18 23:18:02', '2021-11-18 23:32:50'),
+(48, 1, 'ty', 'ty', 'P1180301_1.JPG', 'F', '2021-11-19 00:48:56', '2021-11-19 00:48:56', '2021-11-18 23:49:06', '2021-11-19 20:26:57'),
+(49, 1, 'viernes', 'sdfa', 'concurso 001.jpg', 'F', '2021-11-19 19:48:02', '2021-11-25 00:00:00', '2021-11-19 18:49:10', '2021-11-19 20:26:52');
 
 -- --------------------------------------------------------
 
@@ -697,7 +712,13 @@ INSERT INTO `mesa` (`id`, `evento_id`, `numero`, `bonificacion`) VALUES
 (22, 1, 4, 0),
 (21, 1, 3, 0),
 (20, 1, 2, 0),
-(19, 1, 1, 0);
+(19, 1, 1, 0),
+(30, 43, 1, 0),
+(31, 47, 1, 0),
+(32, 48, 1, 0),
+(33, 48, 2, 0),
+(34, 49, 1, 0),
+(35, 49, 2, 0);
 
 -- --------------------------------------------------------
 
@@ -750,7 +771,38 @@ INSERT INTO `pareja` (`id`, `nombre`, `evento_id`, `jugador1_id`, `jugador2_id`)
 (19, 'Harold Edemio-Angel Alberto', 1, 39, 40),
 (20, 'Yuri Alexis -Roberto', 1, 41, 42),
 (21, 'Ramon-German', 1, 43, 44),
-(22, 'Javier-Alejandro', 1, 45, 46);
+(22, 'Javier-Alejandro', 1, 45, 46),
+(24, 'Pareja de prueba', 1, 42, 41),
+(25, 'Pareja 123', 1, 40, 39),
+(26, 'Los salidores', 42, 41, 40),
+(27, 'Otra pareja', 42, 37, 27),
+(28, 'tercera', 42, 40, 39),
+(36, 'german - ramon', 46, 42, 41),
+(35, 'yandi - yousmel', 43, 29, 2),
+(34, 'roberto - angel alberto', 43, 40, 38),
+(33, 'ramon - harold edemio', 42, 41, 37),
+(37, 'roberto - yuri alexis', 46, 40, 39),
+(38, 'harold edemio - asiel', 46, 37, 36),
+(39, 'alexis - yandi', 46, 31, 29),
+(40, 'jose orlando - randi de cordoba', 46, 14, 7),
+(41, 'nelson - robert', 46, 24, 6),
+(42, 'javier - alejandro', 46, 43, 44),
+(43, 'robert - angel alberto', 46, 6, 38),
+(44, 'nelson - leonardo', 46, 24, 4),
+(45, 'javier - robert', 46, 25, 6),
+(46, 'yousmel - yunior', 46, 2, 15),
+(47, 'jorge luis - yunior', 46, 27, 15),
+(48, 'ramon - roberto', 47, 41, 40),
+(49, 'roberto - yuri alexis', 47, 40, 39),
+(50, 'jorge luis - nelson', 47, 27, 24),
+(51, 'roberto - ramon', 47, 40, 10),
+(52, 'ordenis - angel alberto', 47, 17, 38),
+(53, 'roberto - angel alberto', 48, 40, 38),
+(54, 'javier - jorge luis tyu', 48, 25, 27),
+(55, 'javier - maikel', 48, 25, 11),
+(56, 'ramon - angel alberto', 49, 41, 38),
+(57, 'jorge luis - nelson', 49, 27, 24),
+(58, 'geovanis - victor manuel', 49, 26, 16);
 
 -- --------------------------------------------------------
 
@@ -788,7 +840,12 @@ INSERT INTO `ronda` (`id`, `evento_id`, `numero`, `inicio`, `cierre`, `dia`, `ce
 (41, 1, 4, '2021-10-16 17:29:11', '2021-10-16 17:29:11', 1, b'1', 'Ronda4'),
 (40, 1, 3, '2021-10-16 17:29:09', '2021-10-16 17:29:09', 1, b'1', 'Ronda3'),
 (39, 1, 2, '2021-10-16 17:25:40', '2021-10-16 17:25:40', 1, b'1', 'Ronda2'),
-(38, 1, 1, '2021-10-05 18:43:39', '2021-10-05 18:43:39', 1, b'1', 'Ronda1');
+(38, 1, 1, '2021-10-05 18:43:39', '2021-10-05 18:43:39', 1, b'1', 'Ronda1'),
+(53, 47, 1, '2021-11-20 00:10:32', '2021-11-20 00:10:32', 1, b'0', 'Ronda1'),
+(54, 47, 2, '2021-11-20 00:17:03', '2021-11-20 00:17:03', 1, b'0', 'Ronda2'),
+(55, 47, 3, '2021-11-20 00:17:23', '2021-11-20 00:17:23', 1, b'0', 'Ronda3'),
+(56, 47, 4, '2021-11-20 00:17:45', '2021-11-20 00:17:45', 1, b'0', 'Ronda4'),
+(57, 47, 5, '2021-11-20 00:18:07', '2021-11-20 00:18:07', 1, b'0', 'Ronda5');
 
 --
 -- Índices para tablas volcadas
@@ -832,8 +889,7 @@ ALTER TABLE `data`
 -- Indices de la tabla `evento`
 --
 ALTER TABLE `evento`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `Ref35` (`ciudad_id`);
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indices de la tabla `jugador`
@@ -881,13 +937,13 @@ ALTER TABLE `ronda`
 -- AUTO_INCREMENT de la tabla `boleta`
 --
 ALTER TABLE `boleta`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=212;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=217;
 
 --
 -- AUTO_INCREMENT de la tabla `boleta_pareja`
 --
 ALTER TABLE `boleta_pareja`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=332;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=342;
 
 --
 -- AUTO_INCREMENT de la tabla `ciudad`
@@ -905,19 +961,19 @@ ALTER TABLE `data`
 -- AUTO_INCREMENT de la tabla `evento`
 --
 ALTER TABLE `evento`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=51;
 
 --
 -- AUTO_INCREMENT de la tabla `jugador`
 --
 ALTER TABLE `jugador`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=66;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=68;
 
 --
 -- AUTO_INCREMENT de la tabla `mesa`
 --
 ALTER TABLE `mesa`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
 
 --
 -- AUTO_INCREMENT de la tabla `pais`
@@ -929,13 +985,13 @@ ALTER TABLE `pais`
 -- AUTO_INCREMENT de la tabla `pareja`
 --
 ALTER TABLE `pareja`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=59;
 
 --
 -- AUTO_INCREMENT de la tabla `ronda`
 --
 ALTER TABLE `ronda`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=53;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=58;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

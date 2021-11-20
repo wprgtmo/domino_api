@@ -38,10 +38,10 @@ $routes->group('api', ['namespace' => 'App\Controllers\API'], function($routes){
 
 	// Eventos CRUD
 	$routes->get('eventos', 'Eventos::index');
-	$routes->post('eventos/create', 'Eventos::create');
-	$routes->get('eventos/edit/(:num)', 'Eventos::edit/$1');
-	$routes->put('eventos/update/(:num)', 'Eventos::update/$1');
-	$routes->delete('eventos/delete/(:num)', 'Eventos::delete/$1');
+	$routes->post('eventos/create', 'Eventos::crear');
+	$routes->get('eventos/edit/(:num)', 'Eventos::editar/$1');
+	$routes->put('eventos/update/(:num)', 'Eventos::actualizar/$1');
+	$routes->delete('eventos/delete/(:num)', 'Eventos::eliminar/$1');
 
 	// Eventos Reglas de negocio
 
@@ -52,6 +52,7 @@ $routes->group('api', ['namespace' => 'App\Controllers\API'], function($routes){
 
 	// Acciones solicitadas al evento	
 	$routes->post('evento/iniciar', 'Eventos::iniciar');
+	$routes->post('evento/finalizar', 'Eventos::finalizar');
 	$routes->post('evento/ronda/nueva', 'Eventos::rondaNueva');
 	$routes->post('evento/rondas', 'Eventos::rondas');
 	$routes->post('evento/mesas', 'Eventos::mesas');
