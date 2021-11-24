@@ -169,6 +169,20 @@ class Eventos extends ResourceController
                     $mesaAdd=['id'=>0, 'numero' => $i, 'evento_id' => $evento_id, 'bonificacion'=>0];
                     $mesa_modelo->insert($mesaAdd);
                 }
+
+                // Se agrega la primera ronda em estado Creada
+
+                $rondaMoldelo= new RondaModel();
+                $nro_ronda= $this->model->getProximaRonda($evento_id);
+                $rondaAdd=['id'=>0, 'numero' => $nro_ronda, 'evento_id' => $evento_id, 'dia'=>1, 'cerrada'=>false, 'comentario'=>'Ronda'.$nro_ronda];
+                if ($rondaMoldelo->insert($rondaAdd)) {
+                    $rondaAdd['id'] = $rondaMoldelo->insertID;
+                    $this->AddBoletas($evento_id, $rondaAdd['id']);
+
+                    return $this->respond(array('nuevaRonda' => $rondaAdd, 'boletas'=> $this->model->getBoletas($evento_id, $rondaAdd['id'])));
+                }
+
+
                 return $this->respondUpdated($eventoFinalizar);
             } else            
                 return $this->failValidationErrors($this->model->validation->listErrors());
