@@ -154,10 +154,16 @@ class Eventos extends ResourceController
             if ($eventoFinalizar["estado"]!='C'){ // Estado: C (CREADO)
                 return $this->failServerError('El evento no se encuentra en el estado Creado y no se puede Iniciar');
             }           
+            $cant_parejas= $this->model->getCantParejas($evento_id);
+            // Se toma la cant. de parejas y se verifica que existan al menos 2
+            if ($cant_parejas<2){ // Estado: C (CREADO)
+                return $this->failServerError('El evento no posee parejas definidas para iniciar');
+            } 
+
             if ($this->model->update($evento_id, ['estado' => 'I'])) {
                 
                 // Se toma la cantidad de parejas y se divide por 2 para determinar la cantidad de mesas
-                $cant_parejas= $this->model->getCantParejas($evento_id);
+                
                 $cant_mesas= intdiv($cant_parejas, 2);
 
                 // Si la cantidad de parejas es impar se agrega una mesa
@@ -170,7 +176,7 @@ class Eventos extends ResourceController
                     $mesa_modelo->insert($mesaAdd);
                 }
 
-                // Se agrega la primera ronda em estado Creada
+                // Se agrega la primera ronda en estado Creada
 
                 $rondaMoldelo= new RondaModel();
                 $nro_ronda= $this->model->getProximaRonda($evento_id);
@@ -572,11 +578,6 @@ class Eventos extends ResourceController
             $evento_buscado = $this->model->find($evento_id);
             if ($evento_buscado == null) {
                 return $this->failNotFound('No se ha encontrado un evento con el id: '. $evento_id);
-            }
-
-            $evento_buscado = $this->model->find($evento_id);
-            if ($evento_buscado == null) {
-                return $this->failNotFound('No se ha encontrado un evento con el id: ' . $evento_id);
             }
             $listaParejas = $this->model->getParejas($evento_id);
             $JugadorModel = new JugadorModel();

@@ -34,12 +34,30 @@ class Parejas extends ResourceController
                 'jugador1_id'   => $this->request->getVar('jugador1_id'),
                 'jugador2_id'   => $this->request->getVar('jugador2_id'),
             ];   
+
+            // $evento_id = $pareja['evento_id'];
+            // $evento_buscado = $this->model->find($evento_id);
+            // if ($evento_buscado == null) {
+            //     return $this->failNotFound('No se ha encontrado un evento con el id: '. $evento_id);
+            // }
+
+            $result= $this->model->existeJugadorParejasEvento($pareja['evento_id'], 1, $pareja['jugador1_id']);
+            if ($result>0) {
+                return $this->failValidationErrors('El jugador 1 con id: '. $pareja['jugador1_id'] .' ya se encuentra asociado a otra pareja en este evento');
+            }
+            
+            $result= $this->model->existeJugadorParejasEvento($pareja['evento_id'], 2, $pareja['jugador2_id']);
+            if ($result>0) {
+                return $this->failValidationErrors('El jugador 2 con id: '. $pareja['jugador2_id'] .' ya se encuentra asociado a otra pareja en este evento');
+            }
+
+            $this->respondCreated($result);
             if ($this->model->insert($pareja)):
-                $pareja['id'] = $this->model->insertID;
-                return $this->respondCreated($pareja);
-            else:
-                return $this->failValidationErrors($this->model->validation->listErrors());
+            $pareja['id'] = $this->model->insertID;
+            return $this->respondCreated($pareja); else:
+            return $this->failValidationErrors($this->model->validation->listErrors());
             endif;
+
         } catch (\Exception $err) {
             return $this->failServerError('Exception ha ocurrido un error en el servidor:'.$err->getMessage());
         }

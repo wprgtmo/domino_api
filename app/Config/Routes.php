@@ -82,7 +82,7 @@ $routes->group('api', ['namespace' => 'App\Controllers\API'], function($routes){
 	$routes->post('jugadores/create', 'Jugadores::create');
 	$routes->get('jugadores/edit/(:num)', 'Jugadores::edit/$1');
 	$routes->put('jugadores/update/(:num)', 'Jugadores::update/$1');
-	$routes->delete('jugadores/delete/(:num)', 'Jugadores::delete/$1');
+	$routes->delete('jugadores/eliminar/(:num)', 'Jugadores::delete/$1');
 
 	// Jugadores Reglas de negocio
 	$routes->get('jugador/(:num)', 'Jugadores::Jugador/$1');

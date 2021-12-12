@@ -172,8 +172,6 @@ class EventoModel extends Model{
         return $query->getResult ();
     }
 
-
-
     public function getBoletasPareja($boleta_id = null)
     {
         $builder = $this->db->table('boleta_pareja');
@@ -183,4 +181,8 @@ class EventoModel extends Model{
         $query = $builder->get();
         return $query->getResult ();
     }
+
+
+
+    
 }

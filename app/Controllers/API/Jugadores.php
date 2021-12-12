@@ -24,15 +24,58 @@ class Jugadores extends ResourceController
         }
 	}
 
-    public function create(){
+    // public function create(){
+    //     try {
+    //         $objeto = $this->request->getJSON();
+    //         if ($this->model->insert($objeto)):
+    //             $objeto->id = $this->model->insertID;
+    //             return $this->respondCreated($objeto);
+    //         else:
+    //             return $this->failValidationErrors($this->model->validation->listErrors());
+    //         endif;
+    //     } catch (\Exception $err) {
+    //         return $this->failServerError('Exception ha ocurrido un error en el servidor:'.$err->getMessage());
+    //     }
+    // }
+
+    public function create()
+    {
         try {
-            $objeto = $this->request->getJSON();
-            if ($this->model->insert($objeto)):
-                $objeto->id = $this->model->insertID;
-                return $this->respondCreated($objeto);
-            else:
+            $jugador = [
+                'nombre'            => $this->request->getVar('nombre',         FILTER_SANITIZE_STRING),
+                'telefono'          => $this->request->getVar('telefono',       FILTER_SANITIZE_STRING),
+                'sexo'              => $this->request->getVar('sexo',           FILTER_SANITIZE_STRING),
+                'correo'            => $this->request->getVar('correo',         FILTER_SANITIZE_STRING),
+                'nro_identidad'     => $this->request->getVar('nro_identidad',  FILTER_SANITIZE_STRING),
+                'alias'             => $this->request->getVar('alias',          FILTER_SANITIZE_STRING),
+                'fecha_nacimiento'  => $this->request->getVar('fecha_nacimiento'),
+                'ocupacion'         => $this->request->getVar('ocupacion',      FILTER_SANITIZE_STRING),
+                'comentario'        => $this->request->getVar('comentario',     FILTER_SANITIZE_STRING),
+                'nivel'             => $this->request->getVar('nivel',          FILTER_SANITIZE_STRING),
+                'elo'               => $this->request->getVar('elo',            FILTER_SANITIZE_STRING),
+                'ranking'           => $this->request->getVar('ranking',        FILTER_SANITIZE_STRING),
+                'tipo'              => $this->request->getVar('tipo',           FILTER_SANITIZE_STRING),
+                // 'ciudad_id'         => $this->request->getVar('ciudad_id',      FILTER_SANITIZE_STRING),
+            ];   
+            
+            
+            
+            // Si subió una imagen
+            $file = $this->request->getFile('foto');
+            if ($file) {
+                $file->move('./public/assets/img/jugadores');
+                $jugador["foto"]= '/public/assets/img/jugadores/'. $file->getName();
+                // echo var_dump($evento);
+            }
+            // $evento = $this->request->getJSON();
+            $jugador["ciudad_id"]= 1; // Estado: Gtmo
+
+            if ($this->model->insert($jugador)) {
+                $jugador["id"] = $this->model->insertID;
+                return $this->respondCreated($jugador);
+            } else {
                 return $this->failValidationErrors($this->model->validation->listErrors());
-            endif;
+            }
         } catch (\Exception $err) {
             return $this->failServerError('Exception ha ocurrido un error en el servidor:'.$err->getMessage());
         }
