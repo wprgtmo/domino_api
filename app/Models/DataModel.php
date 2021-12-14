@@ -7,5 +7,5 @@ class DataModel extends Model{
     protected $primaryKey       = 'id';
 
     protected $returnType       = 'array';
-    protected $allowedFields    = [ 'pareja_ganadora', 'puntos', 'duracion'];
+    protected $allowedFields    = ['numero', 'boleta_id', 'pareja_ganadora', 'puntos', 'duracion'];
 }

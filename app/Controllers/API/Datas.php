@@ -26,13 +26,21 @@ class Datas extends ResourceController
 
     public function create(){
         try {
-            $objeto = $this->request->getJSON();
-            if ($this->model->insert($objeto)):
-                $objeto->id = $this->model->insertID;
-                return $this->respondCreated($objeto);
-            else:
+            // $objeto = $this->request->getJSON();
+            $data = [
+                'numero'        => $this->request->getVar('numero'),
+                'boleta_id'    => $this->request->getVar('boleta_id'),
+                'pareja_ganadora'  => $this->request->getVar('pareja_ganadora'),
+                'puntos'  => $this->request->getVar('puntos'),
+                'duracion'  => $this->request->getVar('duracion'),
+            ];  
+            echo var_dump($data);
+            if ($this->model->insert($data)) {
+                $data['id'] = $this->model->insertID;
+                return $this->respondCreated($data);
+            } else{
                 return $this->failValidationErrors($this->model->validation->listErrors());
-            endif;
+            };
         } catch (\Exception $err) {
             return $this->failServerError('Exception ha ocurrido un error en el servidor:'.$err->getMessage());
         }
