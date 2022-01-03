@@ -79,7 +79,7 @@ $routes->group('api', ['namespace' => 'App\Controllers\API'], function($routes){
 	
 	// Jugadores CRUD		
 	$routes->get('jugadores', 'Jugadores::index');
-	$routes->post('jugadores/create', 'Jugadores::create');
+	$routes->post('jugadores/crear', 'Jugadores::create');
 	$routes->get('jugadores/edit/(:num)', 'Jugadores::edit/$1');
 	$routes->put('jugadores/update/(:num)', 'Jugadores::update/$1');
 	$routes->delete('jugadores/eliminar/(:num)', 'Jugadores::delete/$1');

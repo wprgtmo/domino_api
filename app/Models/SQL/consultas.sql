@@ -62,3 +62,13 @@ GROUP BY
   pareja.nombre
 ORDER BY
   pareja.nombre
+  
+  
+  
+  ---
+  
+SELECT pareja.nombre, COUNT(boleta.ronda_id) as rondas, sum(boleta_pareja.ganador) as JG, COUNT(boleta.ronda_id) - sum(boleta_pareja.ganador) as JP, 
+SUM(boleta_pareja.tantos) as PF
+FROM pareja inner join boleta_pareja on pareja.id=boleta_pareja.pareja_id inner JOIN boleta on boleta_pareja.boleta_id=boleta.id
+WHERE boleta.evento_id=1
+GROUP BY pareja.nombre

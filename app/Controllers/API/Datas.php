@@ -3,6 +3,7 @@
 namespace App\Controllers\API;
 
 use App\Models\DataModel;
+use App\Models\BoletaParejaModel;
 use CodeIgniter\CLI\Console;
 use CodeIgniter\Debug\Toolbar\Collectors\Logs;
 use CodeIgniter\RESTful\ResourceController;
@@ -34,10 +35,28 @@ class Datas extends ResourceController
                 'puntos'  => $this->request->getVar('puntos'),
                 'duracion'  => $this->request->getVar('duracion'),
             ];  
-            echo var_dump($data);
             if ($this->model->insert($data)) {
                 $data['id'] = $this->model->insertID;
-                return $this->respondCreated($data);
+                //Verificar si con esos tantos gana el juego
+                
+                $totalTantos = $this->model->getTotalTantos($data['boleta_id'], $data['pareja_ganadora']);
+                if ($totalTantos>199){ //Cerrar la boleta y poner esa pareja como ganadora
+                    
+                    $boletaParejaModel= new BoletaParejaModel();
+                    $dataActualizar = [
+                        'tantos'     => $totalTantos,
+                        'ganador'    => '1',
+                    ];  
+                    $boletaParejaModel->update($data['pareja_ganadora'], $dataActualizar);
+
+                }
+
+                
+
+
+
+
+                return $this->respondCreated(array('Data' => $data));
             } else{
                 return $this->failValidationErrors($this->model->validation->listErrors());
             };

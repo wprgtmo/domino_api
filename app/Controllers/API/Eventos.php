@@ -271,8 +271,8 @@ class Eventos extends ResourceController
             ];
             if ($boletaModelo->insert($boletaAdd)) {
                 $boletaAdd['id'] = $boletaModelo->insertID;
-                $this->AddBoletaParejas($boletaAdd['id'], $parejas[$i]->id);
-                $this->AddBoletaParejas($boletaAdd['id'], $parejas[$i + 1]->id);
+                $this->AddBoletaParejas($boletaAdd['id'], $parejas[2*$i]->id);
+                $this->AddBoletaParejas($boletaAdd['id'], $parejas[2*$i + 1]->id);
             }
         }
     }
