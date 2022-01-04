@@ -7,7 +7,7 @@ class RondaModel extends Model{
     protected $primaryKey       = 'id';
 
     protected $returnType       = 'array';
-    protected $allowedFields    = ['numero', 'evento_id','comentario', 'cerrada', 'dia'];
+    protected $allowedFields    = ['numero', 'evento_id','comentario', 'estado', 'cerrada', 'dia'];
 
     protected $useTimestamps    = true;
     protected $createdField     = 'inicio';
