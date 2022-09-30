@@ -493,34 +493,40 @@ class Eventos extends ResourceController
     {
         try {
             $request = $this->request->getJSON();
-                        
             if ($request == null) {
-                return $this->failValidationErrors('No se ha pasado un id de evento válido');
+                return $this->failValidationErrors('No se han pasado los parametros requeridos');
             }
-            $evento_id = $request->evento_id;
-            $evento_buscado = $this->model->find($evento_id);
-            if ($evento_buscado == null) {
-                return $this->failNotFound('No se ha encontrado un evento con el id: '. $evento_id);
-            }
+            // $evento_id = $request->evento_id;
+            // $evento_buscado = $this->model->find($evento_id);
+            // if ($evento_buscado == null) {
+            //     return $this->failNotFound('No se ha encontrado un evento con el id: '. $evento_id);
+            // }
 
             // Verifico que la ronda solicitada de ese evento exista y sea válida
             // De no pasar un numero de ronda se toma la ronda activa
             $ronda_id = $request->ronda_id;
-            if ($ronda_id == null) {
-                $rondaAct= $this->model->getRondaActiva($evento_id);
-                if (count($rondaAct) == 0) {
-                    return $this->failNotFound('El evento aún no posee ninguna ronda.');
-                } else {
-                    $ronda_id= $rondaAct[0]->id;
-                }
-            } else {
-                $ronda_buscada = $this->model->getRonda($evento_id, $ronda_id);
-                if ($ronda_buscada == null) {
-                    return $this->failNotFound('No se ha encontrado la ronda '. $ronda_id . ' en el evento con el id: ' . $evento_id);
-                }
+            // if ($ronda_id == null) {
+            //     $rondaAct= $this->model->getRondaActiva($evento_id);
+            //     if (count($rondaAct) == 0) {
+            //         return $this->failNotFound('El evento aún no posee ninguna ronda.');
+            //     } else {
+            //         $ronda_id= $rondaAct[0]->id;
+            //     }
+            // } else {
+            //     $ronda_buscada = $this->model->getRonda($evento_id, $ronda_id);
+            //     if ($ronda_buscada == null) {
+            //         return $this->failNotFound('No se ha encontrado la ronda '. $ronda_id . ' en el evento con el id: ' . $evento_id);
+            //     }
+            // }
+
+            $ronda_buscada = $this->model->getRondaId($ronda_id);
+            if ($ronda_buscada == null) {
+                return $this->failNotFound('No se ha encontrado la ronda '. $ronda_id );
             }
 
-            $listaBoletas = $this->model->getBoletas($evento_id, $ronda_id);
+            $ronda=$ronda_buscada[0];
+            
+            $listaBoletas = $this->model->getBoletas($ronda->evento_id, $ronda->id);
             $JugadorModel = new JugadorModel();
 
             for ($i=0; $i < count($listaBoletas); $i++) { 
@@ -531,10 +537,10 @@ class Eventos extends ResourceController
                 // De la primera BoletaPareja se obtiene la pareja como tal.
                 for ($j=0; $j < count($boletaPareja) ; $j++) { 
                     
-                    $mesa = $this->model->getMesa($evento_id, $listaBoletas[$i]->{"mesa_id"});
+                    $mesa = $this->model->getMesa($ronda->evento_id, $listaBoletas[$i]->{"mesa_id"});
                     $listaBoletas[$i]->{"mesa"}=$mesa[0];
 
-                    $listaBoletas[$i]->{"ronda"}=$ronda_buscada[0];
+                    $listaBoletas[$i]->{"ronda"}=$ronda;
 
                     // unset($boleta->{"mesa_id"});
                         

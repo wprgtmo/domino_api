@@ -46,6 +46,15 @@ class EventoModel extends Model{
         return $query->getResult ();
     }
 
+    public function getRondaId($ronda_id)
+    {
+        $builder = $this->db->table('ronda');
+        $builder->select('ronda.*');
+        $builder->where('id', $ronda_id);
+        $query = $builder->get();
+        return $query->getResult ();
+    }
+
 
     public function getCantRondas($evento_id = null)
     {

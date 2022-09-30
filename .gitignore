@@ -125,5 +125,5 @@ nb-configuration.xml
 /phpunit*.xml
 /.phpunit.*.cache
 
-public/assets/img/jugadores/*
-public/assets/img/eventos/*
+public/assets/img/*
+*.code-workspace
